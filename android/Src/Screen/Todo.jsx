@@ -1,14 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
 const Todo = () => {
   return (
-    <View>
-      <Text>Todo</Text>
-    </View>
+    <SafeAreaView>
+      <Text style={styles.heading}>Todo</Text>
+    </SafeAreaView>
   )
 }
 
 export default Todo
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+   heading:{
+     fontWeight: 'bold',
+     fontSize: 50
+   }
+})
