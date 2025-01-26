@@ -5,13 +5,20 @@ import Icon from 'react-native-vector-icons/Entypo';
 
 const Todo = () => {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.heading}>Todo</Text>
       <TextInput placeholder="Add Todo" style={styles.input} />
       <TouchableOpacity>
         <Text style={styles.button}>Add</Text>
       </TouchableOpacity>
       <ScrollView style={styles.Itemcontainer} showsVerticalScrollIndicator={false}>
+        <View style={styles.Item}>
+          <Text>Todo 1</Text>
+          <View style={styles.IconsContainer}>
+          <Icon name="trash" size={20} color="red" />
+          <Icon name="edit" size={20} color="blue" />
+          </View>
+        </View>
         <View style={styles.Item}>
           <Text>Todo 1</Text>
           <View style={styles.IconsContainer}>
@@ -48,6 +55,12 @@ const Todo = () => {
 export default Todo
 
 const styles = StyleSheet.create({
+  container: {
+    padding: 10,
+    margin: 10,
+    borderRadius: 10,
+    boxShadow: '0px 0px 10px 0px black',
+  },
   heading: {
     fontWeight: 'bold',
     fontSize: 30,
