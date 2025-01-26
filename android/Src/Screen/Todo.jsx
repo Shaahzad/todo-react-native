@@ -1,52 +1,61 @@
 import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/Entypo';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTodo, editTodo, removeTodo } from '../Redux/TodoSlice';
 
 
 const Todo = () => {
+  const [todos, setTodos] = useState('')
+  const [isedit, setisEdit] = useState(false)
+  const [edittodoid, setEditTodoid] = useState(null)
+  const dispatch = useDispatch()
+  const todo = useSelector((state) => state.todo.todos)
+  console.log(todo)
+  const GenerateUniqueId = () => Date.now() + Math.floor(Math.random() * 10000)
+  const AddTodoHandler = () => {
+    dispatch(addTodo({
+      id: GenerateUniqueId(),
+      title: todos
+    }))
+    setTodos('')
+  }
+
+  const EditTodoHandler = () => {
+    dispatch(editTodo({
+      id: edittodoid,
+      title: todos
+    }))
+    setTodos('')
+    setisEdit(false)
+    setEditTodoid(null)
+  }
+  const RemoveTodo = (id) => {
+    dispatch(removeTodo(id))
+  }
+  const EditHandler = (id, title) => {
+    setTodos(title)
+    setisEdit(true)
+    setEditTodoid(id)
+  }
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.heading}>Todo</Text>
-      <TextInput placeholder="Add Todo" style={styles.input} />
+      <TextInput placeholder="Add Todo" style={styles.input} onChangeText={setTodos}  value={todos}/>
       <TouchableOpacity>
-        <Text style={styles.button}>Add</Text>
+        <Text style={styles.button} onPress={isedit ? EditTodoHandler : AddTodoHandler}>{isedit ? 'Edit Todo' : 'Add Todo'}</Text>
       </TouchableOpacity>
       <ScrollView style={styles.Itemcontainer} showsVerticalScrollIndicator={false}>
-        <View style={styles.Item}>
-          <Text>Todo 1</Text>
-          <View style={styles.IconsContainer}>
-          <Icon name="trash" size={20} color="red" />
-          <Icon name="edit" size={20} color="blue" />
-          </View>
-        </View>
-        <View style={styles.Item}>
-          <Text>Todo 1</Text>
-          <View style={styles.IconsContainer}>
-          <Icon name="trash" size={20} color="red" />
-          <Icon name="edit" size={20} color="blue" />
-          </View>
-        </View>
-        <View style={styles.Item}>
-          <Text>Todo 1</Text>
-          <View style={styles.IconsContainer}>
-          <Icon name="trash" size={20} color="red" />
-          <Icon name="edit" size={20} color="blue" />
-          </View>
-        </View>
-        <View style={styles.Item}>
-          <Text>Todo 1</Text>
-          <View style={styles.IconsContainer}>
-          <Icon name="trash" size={20} color="red" />
-          <Icon name="edit" size={20} color="blue" />
-          </View>
-        </View>
-        <View style={styles.Item}>
-          <Text>Todo 1</Text>
-          <View style={styles.IconsContainer}>
-          <Icon name="trash" size={20} color="red" />
-          <Icon name="edit" size={20} color="blue" />
-          </View>
-        </View>
+        {todo.map((todo) => (
+           <View style={styles.Item} key={todo.id}>
+           <Text>{todo.title}</Text>
+           <View style={styles.IconsContainer}>
+            <Icon name="trash" size={20} color="red" onPress={() => RemoveTodo(todo.id)}/>
+            <Icon name="edit" size={20} color="blue" onPress={()=> EditHandler(todo.id, todo.title)}/>
+           </View>
+         </View>
+        )
+        )}
       </ScrollView>
     </SafeAreaView>
   )
