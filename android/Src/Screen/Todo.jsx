@@ -11,12 +11,14 @@ const Todo = () => {
   const [edittodoid, setEditTodoid] = useState(null)
   const dispatch = useDispatch()
   const todo = useSelector((state) => state.todo.todos)
-  console.log(todo)
   const GenerateUniqueId = () => Date.now() + Math.floor(Math.random() * 10000)
   const AddTodoHandler = () => {
+    if(!todos) {
+      return alert('Please enter a todo')
+    } 
     dispatch(addTodo({
       id: GenerateUniqueId(),
-      title: todos
+      title: todos.trim()
     }))
     setTodos('')
   }
