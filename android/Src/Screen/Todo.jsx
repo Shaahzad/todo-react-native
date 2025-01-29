@@ -14,7 +14,7 @@ const Todo = () => {
   const GenerateUniqueId = () => Date.now() + Math.floor(Math.random() * 10000)
   const AddTodoHandler = () => {
     if(!todos) {
-      return alert('Please enter a todo')
+      return alert('Please Enter a todo')
     } 
     dispatch(addTodo({
       id: GenerateUniqueId(),
